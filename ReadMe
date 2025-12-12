@@ -1,0 +1,10 @@
+Please revist the following must have features and make sure it is avaialbel in all the documentations
+
+Login with roles: Employee, Admin, Super Admin.
+Employee Learning Profile with tech stack, certifications, and training history.
+Admin can create trainings and assign to all, departments, or specific employees.
+Mandatory trainings require Super Admin approval.
+Employees can view upcoming, department-specific, and mandatory trainings.
+Employees can enroll in open trainings and view assigned trainings.
+System tracks attendance and completion and shows it in the Learning Profile.
+Backend should be in mongoDB
