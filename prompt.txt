@@ -1,0 +1,145 @@
+I already have a requirement to create a product I want a end to end code and PRD and other documents related to it
+
+create a lightweight L&D Portal MVP that can scale. The solution must demonstrate role-based access, training creation, assignment workflows, enrollment, attendance tracking, and a functional learning profile for employees.
+
+Must-Have Features
+● Login with roles: Employee, Admin, Super Admin. ● Employee Learning Profile with tech stack, certifications, and training history. ● Admin can create trainings and assign to all, departments, or specific employees. ● Mandatory trainings require Super Admin approval. ● Employees can view upcoming, department-specific, and mandatory trainings. ● Employees can enroll in open trainings and view assigned trainings. ● System tracks attendance and completion and shows it in the Learning Profile.
+
+
+Please revist the following must have features and make sure it is avaialbel in all the documentations
+
+Login with roles: Employee, Admin, Super Admin.
+Employee Learning Profile with tech stack, certifications, and training history.
+Admin can create trainings and assign to all, departments, or specific employees.
+Mandatory trainings require Super Admin approval.
+Employees can view upcoming, department-specific, and mandatory trainings.
+Employees can enroll in open trainings and view assigned trainings.
+System tracks attendance and completion and shows it in the Learning Profile.
+Backend should be in mongoDB
+
+create prd document for this
+
+Create a lightweight L&D Portal MVP that can scale. The solution must demonstrate role-based access, training creation, assignment workflows, enrollment, attendance tracking, and a functional learning profile for employees. 
+Follwoing are the requirements
+
+## 3. User Personas
+
+### 3.1 Employee
+- **Primary Interactions:**
+  - View and enroll in trainings
+  - Manage personal learning profile
+  - Track training history and certifications
+- **Key Needs:**
+  - Easy access to training opportunities
+  - Transparent view of learning progress
+  - Self-service learning management
+
+### 3.2 Admin
+- **Primary Interactions:**
+  - Create and manage training programs
+  - Assign trainings to individuals/departments
+  - View training completion analytics
+- **Key Needs:**
+  - Efficient training coordination
+  - Flexible assignment workflows
+  - Comprehensive tracking capabilities
+
+### 3.3 Super Admin
+- **Primary Interactions:**
+  - Approve mandatory trainings
+  - Manage system-wide settings
+  - Oversee compliance and governance
+- **Key Needs:**
+  - Strict access control
+  - Compliance oversight
+  - System-wide reporting and management
+
+## 4. Functional Requirements
+
+### 4.1 Role-Based Access Control
+- **Authentication Mechanism:**
+  - Secure login with role-specific access
+  - Three distinct roles: Employee, Admin, Super Admin
+- **Access Levels:**
+  - **Employee:** 
+    - View personal learning profile
+    - Enroll in open trainings
+    - View assigned and available trainings
+  - **Admin:**
+    - Create and manage training programs
+    - Assign trainings
+    - View department-level analytics
+  - **Super Admin:**
+    - Approve mandatory trainings
+    - Manage system-wide settings
+    - Full platform oversight
+
+### 4.2 Employee Learning Profile
+- **Profile Components:**
+  - Personal tech stack (technologies, languages, frameworks)
+  - Professional certifications
+  - Training history
+  - Department and role information
+- **Profile Management:**
+  - Self-service updates
+  - Skill and certification tracking
+  - Automatic updates post-training completion
+
+### 4.3 Training Creation and Management
+- **Training Program Attributes:**
+  - Title
+  - Description
+  - Duration
+  - Schedule
+  - Location/Format (online/in-person)
+- **Assignment Types:**
+  - Organization-wide
+  - Department-specific
+  - Individual
+- **Training Types:**
+  - Open enrollment
+  - Mandatory (requires Super Admin approval)
+  
+  A video player should be integrated in UI, we will be adding the .mp4 file in a folder which wil be specific to that training which will be played when a training is taken
+
+### 4.4 Training Enrollment and Visibility
+- **Enrollment Workflows:**
+  - Self-enrollment for open trainings
+  - View assigned trainings
+  - Enrollment status tracking
+- **Visibility Features:**
+  - Chronological training view
+  - Department-specific filtering
+  - Mandatory training identification
+  - Open enrollment opportunities
+
+### 4.5 Attendance and Completion Tracking
+- **Tracking Capabilities:**
+  - Attendance recording
+  - Completion status tracking
+  - Automatic profile updates
+- **Status Categories:**
+  - Enrolled
+  - In-progress
+  - Completed
+  - Missed
+
+### 4.6 Mandatory Training Approval
+- **Approval Workflow:**
+  - Super Admin dashboard for pending requests
+  - Ability to approve/reject with comments
+  - Audit trail for mandatory training assignments
+  
+  
+  Please Ensure all the webpages are accessible via button
+  All the links and Functionality should be working
+  Please add dummy data for initial usage and demo purpose
+  Create a Netflix like intractive UI.
+
+
+
+  -  Please add login page with email and password and user based UI should be shown on each login for each user 
+the features UI and functionality will be based on the user login be it an employee or admin or superadmin
+
+- Also add a page which has all the training details, a good description and transcript of the video
+A new page with training details should open when a user click on any training 
