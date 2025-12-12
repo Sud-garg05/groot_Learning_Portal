@@ -66,6 +66,10 @@ header.topbar {
   font-size: 13px;
 }
 
+.tiny {
+  font-size: 12px;
+}
+
 .user-panel {
   display: flex;
   align-items: flex-end;
@@ -340,6 +344,22 @@ main {
   gap: 12px;
 }
 
+.detail-layout video {
+  min-height: 200px;
+}
+
+.transcript {
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #0f1729;
+  color: var(--muted);
+  max-height: 260px;
+  overflow-y: auto;
+  line-height: 1.5;
+}
+
 .pill-badge {
   padding: 6px 10px;
   border-radius: 8px;
@@ -441,6 +461,35 @@ video {
   width: 100%;
   border-radius: 12px;
   border: 1px solid var(--border);
+}
+
+.auth-overlay {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 50% 30%, rgba(93, 155, 255, 0.18), rgba(11, 18, 32, 0.95));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+.auth-overlay.hidden {
+  display: none;
+}
+
+.auth-card {
+  width: min(420px, 92vw);
+  background: #0f1729;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow);
+}
+
+.auth-card ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  color: var(--muted);
 }
 
 @media (max-width: 900px) {

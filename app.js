@@ -3,7 +3,8 @@ const employees = [
     id: "u1",
     email: "jane@groot.io",
     name: "Jane Doe",
-    persona: "employee",
+    role: "employee",
+    password: "demo123",
     department: "Engineering",
     jobRole: "Frontend Engineer",
     techStack: ["React", "TypeScript", "Node.js"],
@@ -17,7 +18,8 @@ const employees = [
     id: "u2",
     email: "alex@groot.io",
     name: "Alex Kim",
-    persona: "admin",
+    role: "admin",
+    password: "demo123",
     department: "People",
     jobRole: "L&D Program Manager",
     techStack: ["LearningOps", "Miro"],
@@ -28,7 +30,8 @@ const employees = [
     id: "u3",
     email: "sara@groot.io",
     name: "Sara Patel",
-    persona: "superadmin",
+    role: "superadmin",
+    password: "demo123",
     department: "Compliance",
     jobRole: "Head of Compliance",
     techStack: ["GRC", "Risk"],
@@ -48,6 +51,8 @@ const trainings = [
     type: "open",
     department: "Engineering",
     videoPath: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    transcript:
+      "Welcome to Cloud Security Essentials. In this session we cover shared responsibility, IAM guardrails, network segmentation, and incident response drills. Section 1: IAM baselines. Section 2: VPC zoning. Section 3: Detection and response. Section 4: Hands-on lab overview.",
     approvalStatus: "approved",
   },
   {
@@ -60,6 +65,8 @@ const trainings = [
     type: "mandatory",
     department: "Security",
     videoPath: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    transcript:
+      "This GDPR briefing explains lawful basis, DPIA steps, data subject rights, retention, and breach notification timelines. Section 1: Principles. Section 2: Rights. Section 3: DPIA walkthrough. Section 4: Incident timelines and documentation.",
     approvalStatus: "pending",
   },
   {
@@ -72,6 +79,8 @@ const trainings = [
     type: "open",
     department: "Sales",
     videoPath: "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    transcript:
+      "In this discovery masterclass we cover pre-call research, question ladders, active listening, and objection handling. Module 1: Prep. Module 2: Opening. Module 3: Deep-dive questions. Module 4: Handling objections and next steps.",
     approvalStatus: "approved",
   },
 ];
@@ -82,22 +91,18 @@ const assignments = [
   { trainingId: "t3", type: "org", target: "org" },
 ];
 
-const enrollments = [
-  { trainingId: "t1", userEmail: "jane@groot.io", status: "In-progress" },
-];
+const enrollments = [{ trainingId: "t1", userEmail: "jane@groot.io", status: "In-progress" }];
 
-const mandatoryRequests = [
-  { trainingId: "t2", requestedBy: "alex@groot.io", comment: "Annual compliance mandate" },
-];
+const mandatoryRequests = [{ trainingId: "t2", requestedBy: "alex@groot.io", comment: "Annual compliance mandate" }];
 
-let currentUser = { ...employees[0] };
+let currentUser = null;
 
 const qs = (sel) => document.querySelector(sel);
 const qsa = (sel) => Array.from(document.querySelectorAll(sel));
 
 function init() {
   bindNav();
-  bindPersonaSwitch();
+  bindAuth();
   bindHeroButtons();
   bindForms();
   renderAll();
@@ -112,27 +117,25 @@ function bindNav() {
   });
 }
 
-function bindPersonaSwitch() {
-  qs("#loginBtn").addEventListener("click", () => {
-    const email = qs("#userEmail").value.trim();
-    const persona = qs("#roleSelect").value;
-    const found = employees.find((e) => e.email === email) || null;
-    currentUser = found
-      ? { ...found, persona }
-      : {
-          id: `u-${Date.now()}`,
-          email,
-          name: email.split("@")[0] || "User",
-          persona,
-          department: "Engineering",
-          jobRole: persona === "admin" ? "L&D" : "Engineer",
-          techStack: [],
-          certifications: [],
-          history: [],
-        };
-    showToast(`Switched to ${persona.toUpperCase()} as ${currentUser.email}`);
-    guardPanels();
+function bindAuth() {
+  qs("#loginForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(e.target).entries());
+    const user = employees.find((u) => u.email === data.email.trim());
+    if (!user || user.password !== data.password) {
+      showToast("Invalid credentials");
+      return;
+    }
+    currentUser = { ...user };
+    qs("#authOverlay").classList.add("hidden");
+    showToast(`Welcome, ${currentUser.name}`);
     renderAll();
+  });
+  qs("#logoutBtn").addEventListener("click", () => {
+    currentUser = null;
+    qs("#authOverlay").classList.remove("hidden");
+    renderAll();
+    showToast("Signed out");
   });
 }
 
@@ -198,13 +201,25 @@ function setActivePanel(target) {
 }
 
 function guardPanels() {
-  const isAdmin = currentUser.persona === "admin";
-  const isSuper = currentUser.persona === "superadmin";
+  const isAdmin = currentUser?.role === "admin";
+  const isSuper = currentUser?.role === "superadmin";
   qs("#admin-panel").style.display = isAdmin || isSuper ? "block" : "none";
   qs("#superadmin-panel").style.display = isSuper ? "block" : "none";
 }
 
 function renderAll() {
+  const overlay = qs("#authOverlay");
+  const isAuthed = Boolean(currentUser);
+  if (!isAuthed) {
+    overlay.classList.remove("hidden");
+  }
+  qs("main").style.display = isAuthed ? "block" : "none";
+  qs(".pill-nav").style.display = isAuthed ? "flex" : "none";
+  qs("#userSummary").textContent = isAuthed
+    ? `${currentUser.name} — ${currentUser.role} (${currentUser.email})`
+    : "Not signed in";
+  if (!isAuthed) return;
+
   renderHero();
   renderRows();
   renderTrainingsGrid();
@@ -248,11 +263,13 @@ function trainingCard(t, isAssigned = false) {
     <div class="actions">
       <button class="primary small" data-act="enroll">Enroll</button>
       <button class="ghost small" data-act="play">Play</button>
+      <button class="ghost small" data-act="detail">Details</button>
       ${isAssigned ? '<button class="ghost small" data-act="mark">Mark done</button>' : ""}
     </div>
   `;
   div.querySelector('[data-act="enroll"]').addEventListener("click", () => enroll(t.id));
   div.querySelector('[data-act="play"]').addEventListener("click", () => playTraining(t.id));
+  div.querySelector('[data-act="detail"]').addEventListener("click", () => showTrainingDetail(t.id));
   if (isAssigned) {
     div.querySelector('[data-act="mark"]').addEventListener("click", () => markComplete(t.id));
   }
@@ -280,7 +297,10 @@ function renderTimeline() {
     .sort((a, b) => new Date(a.date) - new Date(b.date));
   data.forEach((t) => {
     const li = document.createElement("li");
-    li.innerHTML = `<span>${t.schedule}</span><span>${t.title} · ${t.type === "mandatory" ? "Mandatory" : "Open"}</span>`;
+    li.innerHTML = `<span>${t.schedule}</span><span><button class="ghost small" data-id="${t.id}">${t.title}</button> · ${
+      t.type === "mandatory" ? "Mandatory" : "Open"
+    }</span>`;
+    li.querySelector("button").addEventListener("click", () => showTrainingDetail(t.id));
     ul.appendChild(li);
   });
 }
@@ -288,7 +308,7 @@ function renderTimeline() {
 function renderProfile() {
   qs("#profileName").textContent = currentUser.name;
   qs("#profileDept").textContent = `Department: ${currentUser.department}`;
-  qs("#profileRole").textContent = `Role: ${currentUser.jobRole} (${currentUser.persona})`;
+  qs("#profileRole").textContent = `Role: ${currentUser.jobRole} (${currentUser.role})`;
   renderList("#techStack", currentUser.techStack);
   renderList("#certifications", currentUser.certifications);
   const hist = currentUser.history.slice().reverse();
@@ -395,6 +415,20 @@ function playTraining(trainingId) {
   });
 }
 
+function showTrainingDetail(trainingId) {
+  const training = trainings.find((t) => t.id === trainingId);
+  if (!training) return;
+  qs("#detailTitle").textContent = training.title;
+  qs("#detailDescription").textContent = training.description;
+  qs("#detailMeta").textContent = `${training.duration} mins · ${training.format} · ${training.schedule}`;
+  qs("#detailVideoSource").src = training.videoPath;
+  qs("#detailVideo").load();
+  qs("#detailTranscript").textContent = training.transcript || "Transcript coming soon.";
+  qs("#detailEnrollBtn").onclick = () => enroll(trainingId);
+  qs("#detailPlayBtn").onclick = () => playTraining(trainingId);
+  setActivePanel("training-detail");
+}
+
 function markComplete(trainingId) {
   updateStatus(trainingId, "Completed");
   const training = trainings.find((t) => t.id === trainingId);
@@ -457,7 +491,7 @@ function renderAnalytics() {
 function renderApprovals() {
   const list = qs("#approvalsList");
   list.innerHTML = "";
-  if (currentUser.persona !== "superadmin") {
+  if (currentUser.role !== "superadmin") {
     list.innerHTML = "<p class='muted'>Switch to Super Admin to approve.</p>";
     return;
   }
