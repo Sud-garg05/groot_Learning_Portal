@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Groot L&D Portal</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo-dot"></div>
+      <div>
+        <h1>Groot L&D Portal</h1>
+        <p class="subtitle">I am groot, I am the leader of the guardians of the galaxy</p>
+      </div>
+    </div>
+    <div class="user-panel">
+      <div class="input-group">
+        <label for="userEmail">Email</label>
+        <input id="userEmail" type="email" placeholder="you@groot.io" value="jane@groot.io">
+      </div>
+      <div class="input-group">
+        <label for="roleSelect">Role</label>
+        <select id="roleSelect">
+          <option value="employee">Employee</option>
+          <option value="admin">Admin</option>
+          <option value="superadmin">Super Admin</option>
+        </select>
+      </div>
+      <button id="loginBtn" class="primary">Switch Persona</button>
+    </div>
+  </header>
+
+  <nav class="pill-nav">
+    <button class="pill active" data-target="home">Home</button>
+    <button class="pill" data-target="trainings">Trainings</button>
+    <button class="pill" data-target="profile">Profile</button>
+    <button class="pill" data-target="admin-panel">Admin Dashboard</button>
+    <button class="pill" data-target="superadmin-panel">Super Admin</button>
+  </nav>
+
+  <main>
+    <section id="home" class="panel visible">
+      <div class="hero" id="heroBanner">
+        <div class="hero-text">
+          <p class="tag">Featured</p>
+          <h2 id="heroTitle">Cloud Security Essentials</h2>
+          <p id="heroDesc">Lock down your cloud workloads with hands-on labs.</p>
+          <div class="hero-actions">
+            <button class="primary" id="heroWatchBtn">Watch intro</button>
+            <button class="ghost" id="heroEnrollBtn">Enroll</button>
+          </div>
+        </div>
+        <div class="hero-meta">
+          <p><strong>Format:</strong> Online</p>
+          <p><strong>Duration:</strong> 90 mins</p>
+          <p><strong>Status:</strong> Open enrollment</p>
+        </div>
+      </div>
+
+      <div class="row">
+        <header class="row-header">
+          <h3>Open For Enrollment</h3>
+          <button class="ghost small" data-target="trainings">See all</button>
+        </header>
+        <div id="openTrainingsRow" class="card-row"></div>
+      </div>
+
+      <div class="row">
+        <header class="row-header">
+          <h3>Assigned To You</h3>
+          <button class="ghost small" data-target="trainings">Go to trainings</button>
+        </header>
+        <div id="assignedTrainingsRow" class="card-row"></div>
+      </div>
+    </section>
+
+    <section id="trainings" class="panel">
+      <header class="section-header">
+        <div>
+          <p class="tag">Catalog</p>
+          <h2>Training Library</h2>
+        </div>
+        <div class="filters">
+          <select id="departmentFilter">
+            <option value="all">All departments</option>
+            <option value="Engineering">Engineering</option>
+            <option value="Security">Security</option>
+            <option value="Sales">Sales</option>
+            <option value="People">People</option>
+          </select>
+          <select id="typeFilter">
+            <option value="all">All types</option>
+            <option value="open">Open enrollment</option>
+            <option value="mandatory">Mandatory</option>
+          </select>
+        </div>
+      </header>
+      <div id="trainingsGrid" class="grid"></div>
+      <div class="timeline-block">
+        <h4>Chronological View</h4>
+        <ul id="timeline"></ul>
+      </div>
+    </section>
+
+    <section id="profile" class="panel">
+      <header class="section-header">
+        <div>
+          <p class="tag">Employee</p>
+          <h2>Learning Profile</h2>
+        </div>
+        <button class="ghost" id="editProfileBtn">Edit profile</button>
+      </header>
+      <div class="profile-grid">
+        <div class="profile-card">
+          <h4>Basics</h4>
+          <p id="profileName"></p>
+          <p id="profileDept"></p>
+          <p id="profileRole"></p>
+        </div>
+        <div class="profile-card">
+          <h4>Tech Stack</h4>
+          <ul id="techStack"></ul>
+        </div>
+        <div class="profile-card">
+          <h4>Certifications</h4>
+          <ul id="certifications"></ul>
+        </div>
+        <div class="profile-card">
+          <h4>Training History</h4>
+          <ul id="history"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="admin-panel" class="panel">
+      <header class="section-header">
+        <div>
+          <p class="tag">Admin</p>
+          <h2>Admin Dashboard</h2>
+        </div>
+        <div class="pill-badge">Admins only</div>
+      </header>
+
+      <div class="split">
+        <div class="card">
+          <h4>Create Training</h4>
+          <form id="createTrainingForm">
+            <div class="input-group">
+              <label>Title</label>
+              <input name="title" required>
+            </div>
+            <div class="input-group">
+              <label>Description</label>
+              <textarea name="description" rows="2" required></textarea>
+            </div>
+            <div class="input-group inline">
+              <div>
+                <label>Duration (mins)</label>
+                <input name="duration" type="number" min="15" value="60">
+              </div>
+              <div>
+                <label>Format</label>
+                <select name="format">
+                  <option value="Online">Online</option>
+                  <option value="In-person">In-person</option>
+                </select>
+              </div>
+            </div>
+            <div class="input-group inline">
+              <div>
+                <label>Schedule</label>
+                <input name="schedule" type="date">
+              </div>
+              <div>
+                <label>Type</label>
+                <select name="type">
+                  <option value="open">Open enrollment</option>
+                  <option value="mandatory">Mandatory (needs approval)</option>
+                </select>
+              </div>
+            </div>
+            <div class="input-group">
+              <label>Video path (relative folder or URL)</label>
+              <input name="videoPath" placeholder="media/cloud101/intro.mp4">
+            </div>
+            <button class="primary" type="submit">Create</button>
+          </form>
+        </div>
+
+        <div class="card">
+          <h4>Assign Training</h4>
+          <form id="assignTrainingForm">
+            <div class="input-group">
+              <label>Training</label>
+              <select name="trainingId" id="assignTrainingSelect"></select>
+            </div>
+            <div class="input-group">
+              <label>Assignment Type</label>
+              <select name="assignmentType">
+                <option value="org">Organization-wide</option>
+                <option value="department">Department</option>
+                <option value="individual">Individual</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>Target (department name or employee email)</label>
+              <input name="target" placeholder="Engineering or jane@groot.io">
+            </div>
+            <button class="primary" type="submit">Assign</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="card">
+        <header class="row-header">
+          <h4>Analytics (demo)</h4>
+          <div class="pill-badge neutral" id="analyticsSummary"></div>
+        </header>
+        <div id="analyticsGrid" class="mini-grid"></div>
+      </div>
+    </section>
+
+    <section id="superadmin-panel" class="panel">
+      <header class="section-header">
+        <div>
+          <p class="tag">Super Admin</p>
+          <h2>Mandatory Approvals & Settings</h2>
+        </div>
+        <div class="pill-badge warning">Super Admin only</div>
+      </header>
+
+      <div class="card">
+        <h4>Pending Mandatory Trainings</h4>
+        <div id="approvalsList" class="list"></div>
+      </div>
+
+      <div class="card">
+        <h4>Governance</h4>
+        <ul class="plain">
+          <li>Role matrix enforced client-side for demo; ready for backend hooks.</li>
+          <li>Audit trail stored in memory for now; replace with API later.</li>
+          <li>Data schemas are JSON-friendly for quick backend wiring.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <header>
+        <h3 id="modalTitle">Edit Profile</h3>
+        <button class="close" id="closeModal">×</button>
+      </header>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
