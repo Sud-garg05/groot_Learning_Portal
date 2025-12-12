@@ -154,8 +154,25 @@
           <ul id="certifications"></ul>
         </div>
         <div class="profile-card">
-          <h4>Training History</h4>
-          <ul id="history"></ul>
+          <h4>Training Summary</h4>
+          <div id="trainingSummary"></div>
+        </div>
+      </div>
+      
+      <div class="row" style="margin-top: 24px;">
+        <header class="row-header">
+          <h3>Training History</h3>
+          <div class="filters">
+            <select id="historyStatusFilter">
+              <option value="all">All Status</option>
+              <option value="Completed">Completed</option>
+              <option value="In-progress">In-progress</option>
+              <option value="Enrolled">Enrolled</option>
+            </select>
+          </div>
+        </header>
+        <div class="card">
+          <ul id="history" class="training-history-list"></ul>
         </div>
       </div>
     </section>
@@ -246,6 +263,21 @@
         </header>
         <div id="analyticsGrid" class="mini-grid"></div>
       </div>
+
+      <div class="card" style="margin-top: 20px;">
+        <header class="row-header">
+          <h4>Employee Learning Profiles & Training Statistics</h4>
+          <div class="filters">
+            <select id="employeeFilter">
+              <option value="all">All Employees</option>
+            </select>
+            <select id="trainingFilter">
+              <option value="all">All Trainings</option>
+            </select>
+          </div>
+        </header>
+        <div id="employeeProfilesContainer"></div>
+      </div>
     </section>
 
     <section id="superadmin-panel" class="panel">
@@ -304,6 +336,10 @@
         <p class="muted">Demo accounts</p>
         <ul>
           <li>Employee: jane@groot.io / demo123</li>
+          <li>Employee: mike@groot.io / demo123</li>
+          <li>Employee: emily@groot.io / demo123</li>
+          <li>Employee: david@groot.io / demo123</li>
+          <li>Employee: lisa@groot.io / demo123</li>
           <li>Admin: alex@groot.io / demo123</li>
           <li>Super Admin: sara@groot.io / demo123</li>
         </ul>
